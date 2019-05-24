@@ -89,7 +89,7 @@ def entropy(n, labels):
     ent = 0 # initialize entropy
     for label in labels.keys():
         p_x = -labels[label]/n # compute probability
-        ent += - p_x *np.log2(p_x) # compute probability
+        ent += - p_x * np.log2(p_x) # compute probability
     return ent
 
 
@@ -148,8 +148,9 @@ def id3(data, uniqs, remaining_atts, target_attribute):
     n = len(data['rows'])
     ent = entropy(n, labels)
 
-    max_info_gain = None
+   
     max_info_gain_att = None
+    max_info_gain = None
     max_info_gain_partitions = None
 
     for remaining_att in remaining_atts:
