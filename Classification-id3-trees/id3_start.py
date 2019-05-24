@@ -3,7 +3,7 @@ import csv
 import sys
 import math
 import os
-
+import numpy as np
 
 def load_csv_to_header_data(filename):
     fpath = os.path.join(os.getcwd(), filename)
@@ -86,10 +86,10 @@ def get_class_labels(data, target_attribute):
 
 
 def entropy(n, labels):
-    ent = None # initialize entropy
+    ent = 0 # initialize entropy
     for label in labels.keys():
-        p_x = None # compute probability
-        ent += - None # compute probability
+        p_x = -labels[label]/n # compute probability
+        ent += - p_x *np.log2(p_x) # compute probability
     return ent
 
 
@@ -122,7 +122,7 @@ def avg_entropy_w_partitions(data, splitting_att, target_attribute):
         partition_n = len(partitioned_data['rows'])
         partition_labels = get_class_labels(partitioned_data, target_attribute)
         partition_entropy = entropy(partition_n, partition_labels)
-        avg_ent += None # compute average en for each partition
+        avg_ent += partition_entropy * (partition_n/n) # compute average en for each partition
 
     return avg_ent, partitions
 
@@ -154,7 +154,7 @@ def id3(data, uniqs, remaining_atts, target_attribute):
 
     for remaining_att in remaining_atts:
         avg_ent, partitions = avg_entropy_w_partitions(data, remaining_att, target_attribute)
-        info_gain = None # compute info_gain
+        info_gain = ent - avg_ent # compute info_gain
         if max_info_gain is None or info_gain > max_info_gain:
             max_info_gain = info_gain
             max_info_gain_att = remaining_att
